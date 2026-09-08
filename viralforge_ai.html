@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ViralForge AI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#090909;color:#fff}
+.container{max-width:1100px;margin:auto;padding:28px 20px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:70px}
+.logo{font-size:24px;font-weight:900}.logo span{color:#ff3131}
+.btn{border:0;border-radius:12px;padding:12px 18px;background:#ff3131;color:white;font-weight:800;cursor:pointer}
+.hero{text-align:center;max-width:820px;margin:auto}
+.badge{display:inline-block;padding:8px 13px;border:1px solid #292929;border-radius:30px;color:#ff6565;font-size:13px}
+h1{font-size:clamp(42px,7vw,76px);line-height:.98;margin:22px 0 16px}
+h1 span{color:#ff3131}.hero p{color:#aaa;font-size:18px;line-height:1.6}
+.card{background:#111;border:1px solid #242424;border-radius:20px;padding:24px;margin:40px auto;max-width:900px;box-shadow:0 20px 70px #0008}
+.grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px}
+label{display:block;color:#aaa;font-size:13px;margin-bottom:7px}
+input,select{width:100%;padding:14px;border-radius:11px;border:1px solid #303030;background:#191919;color:white;outline:none}
+textarea{width:100%;min-height:115px;resize:vertical;padding:15px;border-radius:12px;border:1px solid #303030;background:#191919;color:white;font-size:15px}
+.full{grid-column:1/-1}.generate{width:100%;margin-top:18px;font-size:16px;padding:15px}
+.output{display:none}.output h2{margin-top:0}.result{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:#181818;border:1px solid #292929;border-radius:14px;padding:17px}.box h3{font-size:14px;color:#ff5a5a;margin-top:0}.box p{color:#ddd;line-height:1.5}
+footer{text-align:center;color:#666;padding:40px 0}
+@media(max-width:700px){.grid,.result{grid-template-columns:1fr}nav{margin-bottom:45px}}
+</style>
+</head>
+<body>
+<div class="container">
+<nav>
+<div class="logo">Viral<span>Forge</span> AI</div>
+<button class="btn">Entrar</button>
+</nav>
+
+<section class="hero">
+<div class="badge">⚡ AI para criadores</div>
+<h1>Transforma uma ideia em conteúdo <span>pronto para viralizar.</span></h1>
+<p>Cria hooks, roteiros, cenas, legendas, CTAs e hashtags em poucos segundos.</p>
+</section>
+
+<section class="card">
+<div class="grid">
+<div class="full">
+<label>SUA IDEIA</label>
+<textarea id="idea" placeholder="Ex.: 5 exercícios para pernas que podes fazer em casa..."></textarea>
+</div>
+<div><label>NICHO</label><select id="niche"><option>Fitness</option><option>Comida</option><option>Negócios</option><option>Beleza</option><option>Educação</option><option>Outro</option></select></div>
+<div><label>DURAÇÃO</label><select id="duration"><option>15 segundos</option><option selected>30 segundos</option><option>60 segundos</option></select></div>
+<div><label>IDIOMA</label><select id="lang"><option>Português</option><option>English</option><option>Español</option></select></div>
+</div>
+<button class="btn generate" onclick="generate()">🚀 GERAR CONTEÚDO</button>
+</section>
+
+<section class="card output" id="output">
+<h2>Seu conteúdo está pronto 🔥</h2>
+<div class="result">
+<div class="box"><h3>🎯 HOOK</h3><p id="hook"></p></div>
+<div class="box"><h3>📝 ROTEIRO</h3><p id="script"></p></div>
+<div class="box"><h3>🎬 CENAS</h3><p id="scenes"></p></div>
+<div class="box"><h3>🎙️ NARRAÇÃO</h3><p id="voice"></p></div>
+<div class="box"><h3>💬 LEGENDA</h3><p id="caption"></p></div>
+<div class="box"><h3>🔥 CTA + HASHTAGS</h3><p id="cta"></p></div>
+</div>
+</section>
+
+<footer>ViralForge AI — conteúdo mais rápido. Criadores mais consistentes.</footer>
+</div>
+<script>
+function generate(){
+ const idea=document.getElementById('idea').value.trim()||'um conteúdo incrível para redes sociais';
+ const niche=document.getElementById('niche').value;
+ document.getElementById('hook').textContent=`Pare de fazer ${idea.toLowerCase()} do jeito errado — experimenta isto.`;
+ document.getElementById('script').textContent=`Começa com o problema. Mostra rapidamente a solução relacionada a "${idea}". Dá 3 pontos práticos e termina com uma transformação clara. Mantém o ritmo rápido e elimina partes desnecessárias.`;
+ document.getElementById('scenes').textContent=`Cena 1: Hook (0–3s)\\nCena 2: Apresenta o problema (3–8s)\\nCena 3: Mostra a solução (8–22s)\\nCena 4: Resultado (22–27s)\\nCena 5: CTA (27–30s)`;
+ document.getElementById('voice').textContent=`“Se queres melhorar em ${niche.toLowerCase()}, presta atenção. ${idea}. Faz isto de forma consistente e acompanha os resultados.”`;
+ document.getElementById('caption').textContent=`Quer resultados melhores? 🔥 Guarda este post e manda para alguém que precisa ver.`;
+ document.getElementById('cta').textContent=`CTA: Segue para mais conteúdo e comenta “QUERO” se queres a próxima parte.\\n\\n#${niche.toLowerCase().replaceAll(' ','')} #viral #reels #tiktok #contentcreator`;
+ document.getElementById('output').style.display='block';
+ document.getElementById('output').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
