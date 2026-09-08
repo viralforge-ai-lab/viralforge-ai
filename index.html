@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ViralForge AI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090909;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:24px 18px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:60px}.logo{font-size:25px;font-weight:900}.logo span{color:#ff3131}.btn{background:#ff3131;color:#fff;border:0;border-radius:12px;padding:13px 18px;font-weight:800;cursor:pointer}
+.hero{text-align:center;max-width:850px;margin:auto}.badge{border:1px solid #2b2b2b;border-radius:30px;padding:9px 14px;color:#ff6969;display:inline-block}h1{font-size:clamp(42px,7vw,76px);line-height:.98;margin:22px 0}h1 span{color:#ff3131}.sub{color:#aaa;font-size:18px;line-height:1.5}
+.card{margin:38px auto;background:#111;border:1px solid #272727;border-radius:20px;padding:22px;max-width:900px}.grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px}.full{grid-column:1/-1}label{display:block;color:#aaa;font-size:12px;margin:0 0 7px}
+textarea,select{width:100%;background:#191919;color:#fff;border:1px solid #303030;border-radius:11px;padding:14px;font-size:15px}textarea{min-height:120px;resize:vertical}.generate{width:100%;margin-top:16px;font-size:16px}.status{display:none;color:#aaa;text-align:center;margin-top:12px}.out{display:none}.results{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{background:#181818;border:1px solid #292929;border-radius:14px;padding:16px}.box h3{color:#ff5555;font-size:13px}.box p{white-space:pre-wrap;color:#ddd;line-height:1.55}
+@media(max-width:700px){.grid,.results{grid-template-columns:1fr}.full{grid-column:auto}}
+</style></head>
+<body><main class="wrap">
+<nav><div class="logo">Viral<span>Forge</span> AI</div><button class="btn">Entrar</button></nav>
+<section class="hero"><div class="badge">⚡ IA para criadores</div><h1>Transforma uma ideia em conteúdo <span>pronto para postar.</span></h1><p class="sub">Hooks, roteiros, cenas, narração, legendas, CTAs e hashtags.</p></section>
+<section class="card">
+<div class="grid"><div class="full"><label>SUA IDEIA</label><textarea id="idea" placeholder="Ex.: 5 exercícios para pernas em casa..."></textarea></div>
+<div><label>NICHO</label><select id="niche"><option>Fitness</option><option>Comida</option><option>Negócios</option><option>Beleza</option><option>Educação</option><option>Outro</option></select></div>
+<div><label>DURAÇÃO</label><select id="duration"><option>15 segundos</option><option selected>30 segundos</option><option>60 segundos</option></select></div>
+<div><label>IDIOMA</label><select id="lang"><option>Português</option><option>English</option><option>Español</option></select></div></div>
+<button class="btn generate" onclick="generate()">🚀 GERAR CONTEÚDO</button><div class="status" id="status">A IA está criando...</div>
+</section>
+<section class="card out" id="out"><h2>Conteúdo gerado 🔥</h2><div class="results">
+<div class="box"><h3>🎯 HOOK</h3><p id="hook"></p></div><div class="box"><h3>📝 ROTEIRO</h3><p id="script"></p></div>
+<div class="box"><h3>🎬 CENAS</h3><p id="scenes"></p></div><div class="box"><h3>🎙️ NARRAÇÃO</h3><p id="voice"></p></div>
+<div class="box"><h3>💬 LEGENDA</h3><p id="caption"></p></div><div class="box"><h3>🔥 CTA + HASHTAGS</h3><p id="cta"></p></div>
+</div></section>
+</main>
+<script>
+async function generate(){
+ const idea=document.querySelector("#idea").value.trim();
+ if(!idea) return alert("Escreve uma ideia primeiro.");
+ const btn=document.querySelector(".generate"), status=document.querySelector("#status");
+ btn.disabled=true; status.style.display="block";
+ try{
+  const r=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({idea,niche:document.querySelector("#niche").value,duration:document.querySelector("#duration").value,lang:document.querySelector("#lang").value})});
+  const d=await r.json(); if(!r.ok) throw new Error(d.error||"Erro");
+  for(const k of ["hook","script","scenes","voice","caption","cta"]) document.querySelector("#"+k).textContent=d[k]||"";
+  document.querySelector("#out").style.display="block"; document.querySelector("#out").scrollIntoView({behavior:"smooth"});
+ }catch(e){alert(e.message)} finally{btn.disabled=false;status.style.display="none"}
+}
+</script></body></html>
